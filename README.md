@@ -1,4 +1,4 @@
-Приложение для парсинга прокси для телеграмм на Android
+**Приложение для парсинга прокси для телеграмм на Android**
 
 Данная версия опирается на данные с .txt файлов https://github.com/kort0881/telegram-proxy-collector
 За основу взяты proxy_ru.txt и proxy_eu.txt
