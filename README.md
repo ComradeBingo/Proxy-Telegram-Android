@@ -5,5 +5,4 @@
 Программа проверяет доступность и пинг до самих серверов. Однако, работоспособность всех серверов в качестве прокси для telegram не гарантируется, как и их блокировка.
 Это - версия для Android. <b>Версия для Windows <a href="https://github.com/ComradeBingo/Proxy-telegram-windows">лежит здесь</a></b> <br> 
 
-
-![Uploading 587551035-763493af-60fd-4ba7-88cd-57fad2494ebe.jpg…]()
+<img width="576" height="1280" alt="screen_Android" src="https://github.com/user-attachments/assets/b6d96bec-1d3b-4626-bdd9-8d81a014edde" />
