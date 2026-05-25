@@ -10,11 +10,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_support">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="Проверка и сортировка прокси"
                 android:textSize="12sp"
-                android:textColor="#666666"
+                android:textColor="#383838"
                 android:layout_marginBottom="16dp" />
 
             <!-- КНОПКА СПРАВКА -->
@@ -52,7 +53,7 @@
                 android:layout_height="40dp"
                 android:text="Справка"
                 android:textSize="14sp"
-                android:backgroundTint="#757575"
+                android:backgroundTint="#383838"
                 android:layout_marginBottom="16dp" />
 
             <!-- СТАТУС ВЫПОЛНЕНИЯ -->
@@ -61,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:text="Выберите источник прокси"
                 android:textSize="13sp"
-                android:textColor="#666666"
+                android:textColor="#383838"
                 android:gravity="center"
                 android:padding="12dp"
                 android:background="#F5F5F5"
@@ -161,6 +162,7 @@
                         android:orientation="vertical"
                         android:background="@drawable/region_button_background"
                         android:padding="12dp"
+                        android:layout_marginBottom="12dp"
                         android:clickable="true"
                         android:focusable="true">
 
@@ -223,17 +225,23 @@
 
             </LinearLayout>
 
-            <!-- Прогресс бар -->
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
-                android:visibility="gone" />
-
         </LinearLayout>
 
     </ScrollView>
+
+    <!-- ЧЕРНАЯ КНОПКА ПОДДЕРЖАТЬ НА 50px ВЫШЕ ОТ НИЗА -->
+    <Button
+        android:id="@+id/btn_support"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="🤝 ПОДДЕРЖАТЬ"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="50dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

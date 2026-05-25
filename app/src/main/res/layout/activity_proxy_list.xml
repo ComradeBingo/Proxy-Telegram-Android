@@ -25,10 +25,10 @@
         android:layout_height="48dp"
         android:text="← Назад"
         android:textSize="14sp"
-        android:backgroundTint="#757575"
+        android:backgroundTint="#383838"
         android:layout_marginBottom="16dp" />
 
-    <!-- Заголовок списка (без количества в скобках) -->
+    <!-- Заголовок списка -->
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
@@ -37,7 +37,18 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="4dp" />
+
+    <!-- НОВАЯ СТРОКА: Количество рабочих прокси -->
+    <TextView
+        android:id="@+id/tv_working_proxies_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="14sp"
+        android:textColor="#4CAF50"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
 
     <!-- Список прокси -->
     <androidx.recyclerview.widget.RecyclerView

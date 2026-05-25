@@ -2,6 +2,7 @@ package com.example.tgproxyparser
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -17,6 +18,7 @@ import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
@@ -97,6 +99,12 @@ class MainActivity : AppCompatActivity() {
             checkForUpdates()
         }
 
+        val btnSupport = findViewById<Button>(R.id.btn_support)
+        btnSupport.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ComradeBingo"))
+            startActivity(intent)
+        }
+
         // Проверка обновлений при запуске
         checkForUpdates()
     }
@@ -108,7 +116,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLoadingDialog(proxyCount: Int) {
-        // Создаём кастомный диалог
         progressDialogView = layoutInflater.inflate(R.layout.dialog_progress, null)
         tvDialogMessage = progressDialogView?.findViewById(R.id.tv_progress_message)
         progressBarDialog = progressDialogView?.findViewById(R.id.progressBarDialog)
@@ -144,13 +151,11 @@ class MainActivity : AppCompatActivity() {
         val btnClose = dialogView.findViewById<Button>(R.id.btn_close)
         val btnGitHub = dialogView.findViewById<Button>(R.id.btn_github)
 
-
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .setIcon(android.R.drawable.ic_dialog_info)
             .create()
 
-        // Показ версии из BuildConfig
         val tvVersion = dialogView.findViewById<TextView>(R.id.tv_version)
         tvVersion.text = "Версия: ${BuildConfig.VERSION_NAME}"
 
@@ -159,11 +164,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnGitHub.setOnClickListener {
-            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW,
-                android.net.Uri.parse("https://github.com/ComradeBingo"))
+            val intent = Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://github.com/ComradeBingo"))
             startActivity(intent)
         }
-
 
         dialog.show()
     }
@@ -171,13 +175,10 @@ class MainActivity : AppCompatActivity() {
     private fun parseProxies(url: String, region: String, urlPrefix: String) {
         scope.launch {
             withContext(Dispatchers.Main) {
-                // Блокируем кнопки
                 btnHelp.isEnabled = false
                 btnSurfboard.isEnabled = false
                 btnRussiaCard.isEnabled = false
                 btnEuropeCard.isEnabled = false
-
-                // Показываем диалог
                 showLoadingDialog(0)
             }
 
@@ -198,13 +199,14 @@ class MainActivity : AppCompatActivity() {
                         val sortedProxies = proxiesWithPing.sortedBy { it.pingMs }
 
                         if (sortedProxies.isNotEmpty()) {
-                            // Открываем новое окно со списком прокси
-                            val intent = Intent(this@MainActivity, ProxyListActivity::class.java).apply {
-                                putExtra("proxies_list", ArrayList(sortedProxies.map {
-                                    ProxyListActivity.ProxyWithPing(it.url, it.pingMs)
-                                }))
-                                putExtra("source_name", region)
-                            }
+                            // СОЗДАЕМ СЕРИАЛИЗУЕМЫЙ СПИСОК
+                            val serializableList = ArrayList(sortedProxies.map { proxy ->
+                                SerializableProxyWithPing(proxy.url, proxy.pingMs)
+                            })
+
+                            val intent = Intent(this@MainActivity, ProxyListActivity::class.java)
+                            intent.putExtra("proxies_list", serializableList)
+                            intent.putExtra("source_name", region)
                             startActivity(intent)
                         } else {
                             Toast.makeText(this@MainActivity, "Нет доступных прокси", Toast.LENGTH_SHORT).show()
@@ -218,7 +220,6 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "Ошибка: ${result.exceptionOrNull()?.message}", Toast.LENGTH_LONG).show()
                 }
 
-                // Разблокируем кнопки
                 btnHelp.isEnabled = true
                 btnSurfboard.isEnabled = true
                 btnRussiaCard.isEnabled = true
@@ -231,7 +232,7 @@ class MainActivity : AppCompatActivity() {
         return withContext(Dispatchers.IO) {
             val results = mutableListOf<ProxyWithPing>()
             val total = proxies.size
-            val batchSize = 10  // Проверяем по 10 прокси одновременно
+            val batchSize = 50
 
             val chunks = proxies.chunked(batchSize)
             var processed = 0
@@ -253,7 +254,6 @@ class MainActivity : AppCompatActivity() {
                 results.addAll(chunkResults)
                 processed += chunk.size
 
-                // Обновляем прогресс в диалоге
                 withContext(Dispatchers.Main) {
                     updateDialogProgress(processed, total)
                 }
@@ -390,6 +390,12 @@ class MainActivity : AppCompatActivity() {
         val url: String,
         val pingMs: Int
     )
+
+    // СЕРИАЛИЗУЕМЫЙ КЛАСС ДЛЯ ПЕРЕДАЧИ ЧЕРЕЗ INTENT
+    data class SerializableProxyWithPing(
+        val url: String,
+        val pingMs: Int
+    ) : Serializable
 
     override fun onDestroy() {
         super.onDestroy()

@@ -13,17 +13,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-            <!-- Название программы -->
+            <!-- НАЗВАНИЕ ПРОГРАММЫ -->
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Telegram Proxies Parser"
-                android:textSize="20sp"
+                android:text="Proxy for Telegram"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginBottom="8dp" />
+                android:textColor="#2196F3"
+                android:layout_marginBottom="4dp" />
 
             <!-- Описание -->
             <TextView
