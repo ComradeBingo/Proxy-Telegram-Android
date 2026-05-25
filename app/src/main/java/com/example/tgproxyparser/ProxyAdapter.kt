@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ProxyAdapter(
     private val context: Context,
-    private var proxies: List<String>
+    private var proxiesWithPing: List<MainActivity.ProxyWithPing>
 ) : RecyclerView.Adapter<ProxyAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -29,30 +29,41 @@ class ProxyAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val proxyUrl = proxies[position]
+        val proxy = proxiesWithPing[position]
+        val proxyUrl = proxy.url
+        val pingMs = proxy.pingMs
 
         val proxyInfo = parseProxyUrl(proxyUrl)
 
         if (proxyInfo != null) {
             holder.tvServer.text = "${proxyInfo.server}:${proxyInfo.port}"
         } else {
-            holder.tvServer.text = proxyUrl
+            holder.tvServer.text = proxyUrl.take(50)
         }
 
-        // Здесь пинг уже посчитан и отсортирован в MainActivity
-        // Просто отображаем информацию - пинг уже не вычисляем заново
-        holder.tvPing.text = "✅ Готов к использованию"
-        holder.tvPing.setTextColor(Color.parseColor("#4CAF50"))
+        // Отображение пинга с цветом
+        holder.tvPing.text = when {
+            pingMs < 100 -> "⚡ ${pingMs}мс (Отлично)"
+            pingMs < 300 -> "📡 ${pingMs}мс (Хорошо)"
+            pingMs < 600 -> "🐢 ${pingMs}мс (Средне)"
+            else -> "⚠️ ${pingMs}мс (Медленно)"
+        }
+
+        holder.tvPing.setTextColor(when {
+            pingMs < 100 -> Color.parseColor("#4CAF50")  // Зелёный
+            pingMs < 300 -> Color.parseColor("#FF9800")  // Оранжевый
+            else -> Color.parseColor("#F44336")          // Красный
+        })
 
         holder.btnAdd.setOnClickListener {
             openTelegramWithProxy(proxyUrl)
         }
     }
 
-    override fun getItemCount(): Int = proxies.size
+    override fun getItemCount(): Int = proxiesWithPing.size
 
-    fun updateData(newProxies: List<String>) {
-        proxies = newProxies
+    fun updateData(newProxiesWithPing: List<MainActivity.ProxyWithPing>) {
+        proxiesWithPing = newProxiesWithPing
         notifyDataSetChanged()
     }
 
@@ -64,17 +75,21 @@ class ProxyAdapter(
         } catch (e: Exception) {
             Toast.makeText(
                 context,
-                "Telegram не установлен. Установите Telegram из Play Market.",
+                "❌ Telegram не установлен. Установите Telegram из Play Market.",
                 Toast.LENGTH_LONG
             ).show()
         }
     }
 
-    private fun parseProxyUrl(url: String): ProxyInfo? {
+    private fun parseProxyUrl(url: String): MainActivity.ProxyInfo? {
         return try {
-            if (!url.startsWith("tg://proxy?")) return null
+            val cleanUrl = when {
+                url.startsWith("tg://proxy?") -> url.substring("tg://proxy?".length)
+                url.startsWith("tg://socks?") -> url.substring("tg://socks?".length)
+                else -> return null
+            }
 
-            val params = url.substring("tg://proxy?".length).split("&")
+            val params = cleanUrl.split("&")
             var server = ""
             var port = ""
 
@@ -89,7 +104,7 @@ class ProxyAdapter(
             }
 
             if (server.isNotEmpty() && port.isNotEmpty()) {
-                ProxyInfo(server, port)
+                MainActivity.ProxyInfo(server, port)
             } else {
                 null
             }
@@ -97,9 +112,4 @@ class ProxyAdapter(
             null
         }
     }
-
-    data class ProxyInfo(
-        val server: String,
-        val port: String
-    )
 }

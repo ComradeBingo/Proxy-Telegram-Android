@@ -31,38 +31,15 @@
                 android:layout_height="wrap_content"
                 android:text="Парсит прокси для Telegram из открытых источников"
                 android:textSize="13sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="16dp"
+                android:gravity="center" />
 
-            <!-- Особенности -->
-            <TextView
+            <!-- Разделитель -->
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Кнопки:"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="• Европа - Маскировка под Google, Amazon, Microsoft и др."
-                android:textSize="13sp"
-                android:layout_marginBottom="4dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="• Россия - Маскировка под Yandex, VK, Mail.ru, Gosuslugi и др."
-                android:textSize="13sp"
-                android:layout_marginBottom="4dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_marginVertical="8dp" />
+                android:layout_height="1dp"
+                android:background="#DDDDDD"
+                android:layout_marginVertical="12dp" />
 
             <!-- Автор -->
             <TextView
@@ -71,47 +48,39 @@
                 android:text="Автор: Comrade Bingo"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginTop="8dp" />
+                android:gravity="center"
+                android:layout_marginBottom="4dp" />
 
             <!-- Версия -->
             <TextView
+                android:id="@+id/tv_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="📌 Версия: 1.3"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:layout_marginTop="4dp" />
+                android:text="Версия: ..."
+                android:textSize="13sp"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"
+                android:textColor="#666666" />
 
             <!-- Предупреждение -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="16dp"
                 android:background="#FFF3F3"
                 android:gravity="center"
                 android:lineSpacingExtra="2dp"
                 android:padding="12dp"
-                android:text="ВНИМАНИЕ! - доступность серверов из списка не гарантирует, что все они будут работать на вашем устройстве.\nПроверяйте, пробуйте!"
+                android:text="ВНИМАНИЕ!\nДоступность серверов из списка не гарантирует, что все они будут работать на вашем устройстве.\nПроверяйте, пробуйте!"
                 android:textColor="#FF0000"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <!-- Обновление -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Списки обновляются каждый час"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp" />
-
-            <!-- Кнопка GitHub - теперь как отдельная строка с центровкой -->
+            <!-- Кнопка GitHub -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginBottom="8dp">
+                android:gravity="center">
 
                 <Button
                     android:id="@+id/btn_github"
@@ -129,67 +98,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <!-- Блок поддержки проекта -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:padding="12dp"
-        android:background="#F5F5F5">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="❤️ Поддержать проект"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="12dp"
-            android:textColor="#333333" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btn_boosty"
-                android:layout_width="0dp"
-                android:layout_height="44dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp"
-                android:text="Boosty"
-                android:textSize="12sp"
-                android:backgroundTint="#F27E2C"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:singleLine="true"
-                android:ellipsize="end" />
-
-            <Button
-                android:id="@+id/btn_yoomoney"
-                android:layout_width="0dp"
-                android:layout_height="44dp"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp"
-                android:text="ЮMoney"
-                android:textSize="12sp"
-                android:backgroundTint="#00A55E"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:singleLine="true"
-                android:ellipsize="end" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
     <!-- Кнопка закрытия -->
     <Button
