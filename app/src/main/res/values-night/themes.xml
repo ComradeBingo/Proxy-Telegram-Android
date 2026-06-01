@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.ProxyParser" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#0088cc</item>
+        <item name="colorOnPrimary">#FDFDFD</item>
+        <item name="colorPrimaryContainer">#0088cc</item>
+        <item name="colorOnPrimaryContainer">#EADDFF</item>
+
+        <item name="colorSecondary">#CCC2DC</item>
+        <item name="colorOnSecondary">#332D41</item>
+        <item name="colorSecondaryContainer">#4A4458</item>
+        <item name="colorOnSecondaryContainer">#E8DEF8</item>
+
+        <item name="colorSurface">#1C1B1F</item>
+        <item name="colorOnSurface">#E6E1E5</item>
+        <item name="colorSurfaceVariant">#49454F</item>
+        <item name="colorOnSurfaceVariant">#CAC4D0</item>
+
+        <item name="colorError">#FFB4AB</item>
+        <item name="colorOnError">#690005</item>
+
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+    </style>
+</resources>

@@ -2,50 +2,81 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardProxy"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    app:cardBackgroundColor="@android:color/white">
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="?attr/colorSurface">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="12dp">
 
+        <!-- IP адрес -->
         <TextView
-            android:id="@+id/tv_server"
-            android:layout_width="match_parent"
+            android:id="@+id/tvHost"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:text="185.217.123.45:443"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="#333333"
-            android:fontFamily="monospace"
-            android:gravity="center"
-            android:layout_marginBottom="8dp" />
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvPing"/>
 
+        <!-- Пинг -->
         <TextView
-            android:id="@+id/tv_ping"
+            android:id="@+id/tvPing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="12sp"
+            android:text="45 ms"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:text="✅ Готов"
-            android:layout_marginBottom="12dp" />
+            app:layout_constraintTop_toTopOf="@id/tvHost"
+            app:layout_constraintBottom_toBottomOf="@id/tvHost"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Button
-            android:id="@+id/btn_add"
+        <!-- Кнопка Копировать (с иконкой и поднятым текстом) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCopy"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:layout_gravity="center"
-            android:text="➕ Добавить в Telegram"
+            android:layout_height="40dp"
+            android:text="Копировать"
             android:textSize="13sp"
-            android:textAllCaps="false"
-            android:backgroundTint="#0088cc" />
+            android:paddingHorizontal="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="0dp"
+            app:icon="@android:drawable/ic_menu_save"
+            app:iconGravity="textStart"
+            app:iconPadding="4dp"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tvHost"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-    </LinearLayout>
+        <!-- Кнопка Telegram  -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Добавить в Telegram"
+            android:textSize="13sp"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="0dp"
+            app:iconGravity="textStart"
+            app:iconPadding="4dp"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tvHost"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -79,6 +79,10 @@ class UpdateChecker(
 
         val json = JSONObject(response.body?.string() ?: throw IOException("Empty response"))
 
+        // Получаем ссылку на страницу релиза
+        val htmlUrl = json.getString("html_url")
+
+        // Получаем ссылку на APK (оставим на всякий случай)
         val assets = json.getJSONArray("assets")
         var apkUrl = ""
         for (i in 0 until assets.length()) {
@@ -89,17 +93,22 @@ class UpdateChecker(
             }
         }
 
-        if (apkUrl.isEmpty()) {
-            throw IOException("APK not found in release assets")
-        }
-
         return GitHubRelease(
             tagName = json.getString("tag_name"),
-            changelog = json.getString("body"),
-            apkUrl = apkUrl
+            changelog = json.optString("body", ""),  // optString чтобы не было ошибки если нет описания
+            apkUrl = apkUrl,
+            htmlUrl = htmlUrl
         )
     }
 
+    // Метод для открытия страницы релиза
+    fun openReleasePage(releaseUrl: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(releaseUrl))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
+    }
+
+    // Старый метод оставим для совместимости (если нужно)
     fun openDownloadPage(downloadUrl: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(downloadUrl))
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

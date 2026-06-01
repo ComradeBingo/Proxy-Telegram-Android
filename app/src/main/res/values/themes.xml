@@ -1,9 +1,24 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.TGProxyParser" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.ProxyParser" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#0088cc</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#FFFFFF</item>
+        <item name="colorOnPrimaryContainer">#21005D</item>
 
-    <style name="Theme.TGProxyParser" parent="Base.Theme.TGProxyParser" />
+        <item name="colorSecondary">#625B71</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#E8DEF8</item>
+        <item name="colorOnSecondaryContainer">#1D192B</item>
+
+        <item name="colorSurface">#FFFBFE</item>
+        <item name="colorOnSurface">#1C1B1F</item>
+        <item name="colorSurfaceVariant">#FFFFFF</item>
+        <item name="colorOnSurfaceVariant">#49454F</item>
+
+        <item name="colorError">#BA1A1A</item>
+        <item name="colorOnError">#FFFFFF</item>
+
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+    </style>
 </resources>
