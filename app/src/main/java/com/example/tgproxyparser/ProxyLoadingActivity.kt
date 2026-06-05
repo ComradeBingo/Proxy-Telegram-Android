@@ -31,7 +31,6 @@ class ProxyLoadingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_proxy_loading)
 
-        // Получаем параметры
         sourceUrl = intent.getStringExtra("source_url") ?: ""
         sourceName = intent.getStringExtra("source_name") ?: "Источник"
         urlPrefix = intent.getStringExtra("url_prefix") ?: "tg://proxy?"
@@ -53,26 +52,26 @@ class ProxyLoadingActivity : AppCompatActivity() {
 
     private fun startLoading() {
         scope.launch {
-            // Этап 1: Загрузка списка прокси
             updateStatus("Загрузка списка прокси...", 0, 0)
 
             val result = fetchProxies(sourceUrl, urlPrefix)
 
             withContext(Dispatchers.Main) {
                 if (result.isSuccess) {
-                    val proxies = result.getOrNull() ?: emptyList()
-                    if (proxies.isNotEmpty()) {
-                        updateStatus("Проверяю доступность...", 0, proxies.size)
+                    val rawProxies = result.getOrNull() ?: emptyList()
+                    if (rawProxies.isNotEmpty()) {
+                        // Удаляем дубликаты по нормализованному ключу
+                        val uniqueProxies = rawProxies.distinctBy { normalizeProxyKey(it) }
 
-                        // Этап 2: Проверка пинга
+                        updateStatus("Проверяю доступность...", 0, uniqueProxies.size)
+
                         val proxiesWithPing = withContext(Dispatchers.IO) {
-                            checkProxiesPingParallel(proxies, 50)
+                            checkProxiesPingParallel(uniqueProxies, 50)
                         }
 
                         val sortedProxies = proxiesWithPing.sortedBy { it.pingMs }
 
                         if (sortedProxies.isNotEmpty()) {
-                            // Переход к списку прокси
                             val intent = Intent(this@ProxyLoadingActivity, ProxyListActivity::class.java)
                             intent.putExtra("proxies_list", ArrayList(sortedProxies))
                             intent.putExtra("source_name", sourceName)
@@ -89,6 +88,53 @@ class ProxyLoadingActivity : AppCompatActivity() {
                     showError("Ошибка: $error")
                 }
             }
+        }
+    }
+
+
+    // Функция возвращает ключ для сравнения (server+port+очищенный secret) дабы не лезли дубли
+    private fun normalizeProxyKey(url: String): String {
+        try {
+            // Извлекаем параметры из URL
+            val paramsPart = when {
+                url.startsWith("tg://proxy?") -> url.substring("tg://proxy?".length)
+                url.startsWith("tg://socks?") -> url.substring("tg://socks?".length)
+                url.startsWith("https://t.me/proxy?") -> url.substring("https://t.me/proxy?".length)
+                url.startsWith("https://t.me/socks?") -> url.substring("https://t.me/socks?".length)
+                else -> return url
+            }
+
+            val params = paramsPart.split("&")
+            var server = ""
+            var port = ""
+            var secret = ""
+
+            for (param in params) {
+                when {
+                    param.startsWith("server=") -> server = param.substringAfter("=")
+                    param.startsWith("port=") -> port = param.substringAfter("=")
+                    param.startsWith("secret=") -> {
+                        // Берем значение secret
+                        var rawSecret = param.substringAfter("=")
+                        // Обрезаем по первому вхождению & или #
+                        val cleanSecret = rawSecret.split("&", "#","@").first()
+                        if (cleanSecret.isNotEmpty()) {
+                            secret = cleanSecret
+                        }
+                    }
+                }
+            }
+
+            // Ключ = server:port:secret
+            return if (server.isNotEmpty() && port.isNotEmpty() && secret.isNotEmpty()) {
+                "$server:$port:$secret"
+            } else if (server.isNotEmpty() && port.isNotEmpty()) {
+                "$server:$port"
+            } else {
+                url
+            }
+        } catch (e: Exception) {
+            return url
         }
     }
 
@@ -161,7 +207,6 @@ class ProxyLoadingActivity : AppCompatActivity() {
                     .map { it.trim() }
                     .filter { it.startsWith(urlPrefix) }
                     .map { convertToTgFormat(it, urlPrefix) }
-                    .distinct()
 
                 Result.success(proxies)
             } catch (e: Exception) {
