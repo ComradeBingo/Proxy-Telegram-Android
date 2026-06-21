@@ -4,8 +4,10 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,8 +34,13 @@ class ProxyListActivity : AppCompatActivity() {
         sourceName = intent.getStringExtra("source_name") ?: "Прокси"
         supportActionBar?.title = sourceName
 
-        @Suppress("UNCHECKED_CAST")
-        proxiesList = intent.getSerializableExtra("proxies_list") as? ArrayList<ProxyWithPing> ?: emptyList()
+        // Исправлено: получение списка с поддержкой новых версий Android
+        proxiesList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("proxies_list", ArrayList::class.java) as? List<ProxyWithPing> ?: emptyList()
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra("proxies_list") as? ArrayList<ProxyWithPing> ?: emptyList()
+        }
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -47,6 +54,13 @@ class ProxyListActivity : AppCompatActivity() {
         }
 
         setupToolbarMenu()
+
+        // Исправлено: использование OnBackPressedCallback вместо onBackPressed()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finish()
+            }
+        })
     }
 
     private fun setupToolbarMenu() {
@@ -139,7 +153,7 @@ class ProxyListActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        finish()
         return true
     }
 }

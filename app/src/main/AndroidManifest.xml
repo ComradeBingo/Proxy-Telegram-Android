@@ -30,6 +30,13 @@
             android:name=".ProxyLoadingActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MergeProxiesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CheckFileActivity"
+            android:exported="false" />
 
     </application>
 

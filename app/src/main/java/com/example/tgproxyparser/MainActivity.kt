@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +16,6 @@ import com.example.tgproxyparser.updater.UpdateChecker
 import com.example.tgproxyparser.updater.GitHubRelease
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import java.io.IOException
 import java.net.Socket
 
@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnSupport: MaterialButton
     private lateinit var btnHelp: MaterialButton
     private lateinit var btnTheme: MaterialButton
+    private lateinit var btnMergeAll: MaterialButton
+    private lateinit var btnCheckFile: MaterialButton
     private lateinit var tvStatus: TextView
     private lateinit var tvVersion: TextView
 
@@ -34,7 +36,17 @@ class MainActivity : AppCompatActivity() {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private lateinit var updateChecker: UpdateChecker
 
+    // Регистрируем файловый пикер
+    private val filePickerLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        uri?.let {
+            startCheckFileActivity(it)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        applySavedTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -44,8 +56,18 @@ class MainActivity : AppCompatActivity() {
         setupClickListeners()
         setupVersion()
 
-        // Проверка обновлений при запуске
         checkForUpdates()
+    }
+
+    private fun applySavedTheme() {
+        val sharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
+        val themeMode = sharedPref.getInt("theme", 0)
+
+        when (themeMode) {
+            0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
     }
 
     private fun initViews() {
@@ -55,6 +77,8 @@ class MainActivity : AppCompatActivity() {
         btnSupport = findViewById(R.id.btn_support)
         btnHelp = findViewById(R.id.btnHelp)
         btnTheme = findViewById(R.id.btnTheme)
+        btnMergeAll = findViewById(R.id.btnMergeAll)
+        btnCheckFile = findViewById(R.id.btnCheckFile)
         tvStatus = findViewById(R.id.statusText)
         tvVersion = findViewById(R.id.tvVersion)
     }
@@ -62,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupVersion() {
         try {
             val versionName = packageManager.getPackageInfo(packageName, 0).versionName
-            tvVersion.text = "v$versionName"  // было "Версия: $versionName", стало "v$versionName"
+            tvVersion.text = "v$versionName"
         } catch (e: Exception) {
             tvVersion.text = "v1.0"
         }
@@ -93,6 +117,14 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
+        btnMergeAll.setOnClickListener {
+            startMergeProxies()
+        }
+
+        btnCheckFile.setOnClickListener {
+            openFilePicker()
+        }
+
         btnSupport.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ComradeBingo"))
             startActivity(intent)
@@ -115,6 +147,21 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun startMergeProxies() {
+        val intent = Intent(this, MergeProxiesActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openFilePicker() {
+        filePickerLauncher.launch(arrayOf("text/plain", "text/*"))
+    }
+
+    private fun startCheckFileActivity(uri: Uri) {
+        val intent = Intent(this, CheckFileActivity::class.java)
+        intent.putExtra("file_uri", uri)
+        startActivity(intent)
+    }
+
     private fun showThemeDialog() {
         val themes = arrayOf("Системная", "Светлая", "Темная")
         val sharedPref = getSharedPreferences("app_settings", MODE_PRIVATE)
@@ -123,17 +170,15 @@ class MainActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setTitle("Выберите тему")
             .setSingleChoiceItems(themes, currentTheme) { _, which ->
+                sharedPref.edit().putInt("theme", which).apply()
+
                 when (which) {
                     0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
-                sharedPref.edit().putInt("theme", which).apply()
 
-                // Перезапускаем активность для применения темы
-                val intent = intent
-                finish()
-                startActivity(intent)
+                recreate()
             }
             .setNegativeButton("Отмена", null)
             .show()
@@ -150,7 +195,9 @@ class MainActivity : AppCompatActivity() {
                     "Источники:\n" +
                     "• Kort0881 - прокси с закосом под сервисы России и Европы\n" +
                     "• SurfboardV2ray - большой список\n\n" +
-                    "💡 Чем меньше пинг, тем быстрее прокси\n\n")
+                    "💡 Чем меньше пинг, тем быстрее прокси\n\n" +
+                    "📥 Скачать все прокси - объединяет все источники\n" +
+                    "📂 Проверить из файла - проверяет ваш файл с прокси\n\n")
             .setPositiveButton("GitHub") { _, _ ->
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ComradeBingo"))
                 startActivity(intent)

@@ -334,7 +334,23 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMergeAll"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📥 Скачать все прокси"
 
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCheckFile"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📂 Проверить из файла"
+
+                android:layout_marginBottom="8dp" />
             <!-- Кнопка поддержки -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_support"
@@ -348,6 +364,9 @@
                 android:textColor="#FFFFFF"
                 app:cornerRadius="28dp"
                 android:backgroundTint="#000000" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp" />
 
         </LinearLayout>
 

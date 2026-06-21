@@ -14,8 +14,8 @@ android {
         applicationId = "com.example.tgproxyparser"
         minSdk = 23
         targetSdk = 36
-        versionCode = 7
-        versionName = "1.7"
+        versionCode = 8
+        versionName = "1.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
