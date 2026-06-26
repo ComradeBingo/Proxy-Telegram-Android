@@ -18,7 +18,9 @@ object ProxyManager {
     private val SOURCES = listOf(
         "https://raw.githubusercontent.com/kort0881/telegram-proxy-collector/main/proxy_ru.txt" to "tg://proxy?",
         "https://raw.githubusercontent.com/kort0881/telegram-proxy-collector/main/proxy_eu.txt" to "tg://proxy?",
-        "https://raw.githubusercontent.com/Surfboardv2ray/TGProto/refs/heads/main/proxies-tested.txt" to "https://t.me/proxy?"
+        "https://raw.githubusercontent.com/Surfboardv2ray/TGProto/refs/heads/main/proxies-tested.txt" to "https://t.me/proxy?",
+        "https://raw.githubusercontent.com/SoliSpirit/mtproto/master/all_proxies.txt" to "https://t.me/proxy?",
+        "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/refs/heads/main/protocols/mtproto.txt" to "tg://proxy?"
     )
 
     suspend fun fetchAllSources(onProgress: (sourceIndex: Int, total: Int, count: Int) -> Unit): List<String> {
@@ -47,27 +49,46 @@ object ProxyManager {
                 val response = client.newCall(request).execute()
 
                 if (!response.isSuccessful) {
+                    android.util.Log.e("ProxyManager", "Response not successful: ${response.code}")
                     return@withContext emptyList()
                 }
 
                 val body = response.body?.string() ?: ""
-                body.lines()
-                    .filter { it.isNotBlank() }
-                    .map { it.trim() }
-                    .filter { it.startsWith(urlPrefix) }
-                    .map { convertToTgFormat(it, urlPrefix) }
-            } catch (_: Exception) {
+                android.util.Log.d("ProxyManager", "Body length: ${body.length}")
+                android.util.Log.d("ProxyManager", "First 200 chars: ${body.take(200)}")
+
+                // ПРЯМОЙ ПАРСИНГ - берем ВСЕ строки, которые содержат server= и port=
+                val lines = body.lines()
+                android.util.Log.d("ProxyManager", "Total lines: ${lines.size}")
+
+                val result = mutableListOf<String>()
+                for (line in lines) {
+                    val trimmed = line.trim()
+                    // Если строка содержит server= и port= - это прокси
+                    if (trimmed.contains("server=") && trimmed.contains("port=")) {
+                        // Если строка начинается с https://t.me/proxy?, конвертируем
+                        var proxy = trimmed
+                        if (proxy.startsWith("https://t.me/proxy?")) {
+                            proxy = "tg://proxy?" + proxy.substring("https://t.me/proxy?".length)
+                        } else if (!proxy.startsWith("tg://")) {
+                            // Если не начинается с tg://, добавляем префикс
+                            proxy = "tg://proxy?$proxy"
+                        }
+                        result.add(proxy)
+                    }
+                }
+
+                android.util.Log.d("ProxyManager", "Found ${result.size} proxies")
+                if (result.isNotEmpty()) {
+                    android.util.Log.d("ProxyManager", "First proxy: ${result.first()}")
+                }
+
+                result
+
+            } catch (e: Exception) {
+                android.util.Log.e("ProxyManager", "Error: ${e.message}", e)
                 emptyList()
             }
-        }
-    }
-
-    // Исправлено: используем when с subject
-    private fun convertToTgFormat(url: String, originalPrefix: String): String {
-        return when (originalPrefix) {
-            "https://t.me/proxy?" -> "tg://proxy?" + url.substring("https://t.me/proxy?".length)
-            "https://t.me/socks?" -> "tg://socks?" + url.substring("https://t.me/socks?".length)
-            else -> url
         }
     }
 
@@ -151,8 +172,9 @@ object ProxyManager {
                         var count = 0
                         while (reader.readLine().also { line = it } != null && count < MAX_PROXIES) {
                             line?.let {
-                                if (it.isNotBlank()) {
-                                    proxies.add(it.trim())
+                                val trimmedLine = it.trim()
+                                if (trimmedLine.isNotEmpty() && !trimmedLine.startsWith("#")) {
+                                    proxies.add(trimmedLine)
                                     count++
                                 }
                             }

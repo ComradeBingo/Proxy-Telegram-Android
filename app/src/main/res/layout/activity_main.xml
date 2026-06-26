@@ -37,9 +37,9 @@
                     android:layout_height="wrap_content"
                     android:text="Proxy for Telegram"
                     android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:fontFamily="sans-serif-medium" />
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:id="@+id/tvVersion"
@@ -47,9 +47,9 @@
                     android:layout_height="wrap_content"
                     android:text="v1.5"
                     android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="4dp" />
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
 
             </LinearLayout>
 
@@ -334,13 +334,106 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- НОВЫЙ БЛОК SOLISPIRIT -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="?attr/colorSurface">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SoliSpirit"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MTProto прокси"
+                        android:textSize="12sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:layout_marginBottom="16dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_solispirit"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="Загрузить прокси"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="24dp"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:backgroundTint="?attr/colorPrimary" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- НОВЫЙ БЛОК VestraNet -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="?attr/colorSurface">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="VestraNet"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Verified прокси"
+                        android:textSize="12sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:layout_marginBottom="16dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_therealwh"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="Загрузить прокси"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="24dp"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:backgroundTint="?attr/colorPrimary" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Кнопки действий -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMergeAll"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="📥 Скачать все прокси"
-
                 android:layout_marginBottom="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -349,8 +442,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="📂 Проверить из файла"
-
                 android:layout_marginBottom="8dp" />
+
             <!-- Кнопка поддержки -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_support"
@@ -364,6 +457,7 @@
                 android:textColor="#FFFFFF"
                 app:cornerRadius="28dp"
                 android:backgroundTint="#000000" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="60dp" />

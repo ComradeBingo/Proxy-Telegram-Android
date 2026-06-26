@@ -21,6 +21,7 @@ import java.net.Socket
 
 class MainActivity : AppCompatActivity() {
 
+    // Существующие кнопки
     private lateinit var btnSurfboard: MaterialButton
     private lateinit var btnRussiaCard: MaterialCardView
     private lateinit var btnEuropeCard: MaterialCardView
@@ -29,6 +30,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnTheme: MaterialButton
     private lateinit var btnMergeAll: MaterialButton
     private lateinit var btnCheckFile: MaterialButton
+
+    // НОВЫЕ КНОПКИ
+    private lateinit var btnSoliSpirit: MaterialButton
+    private lateinit var btnTherealwh: MaterialButton
+
     private lateinit var tvStatus: TextView
     private lateinit var tvVersion: TextView
 
@@ -71,6 +77,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        // Существующие кнопки
         btnSurfboard = findViewById(R.id.btn_surfboard)
         btnRussiaCard = findViewById(R.id.btn_russia_card)
         btnEuropeCard = findViewById(R.id.btn_europe_card)
@@ -79,6 +86,11 @@ class MainActivity : AppCompatActivity() {
         btnTheme = findViewById(R.id.btnTheme)
         btnMergeAll = findViewById(R.id.btnMergeAll)
         btnCheckFile = findViewById(R.id.btnCheckFile)
+
+        // НОВЫЕ КНОПКИ
+        btnSoliSpirit = findViewById(R.id.btn_solispirit)
+        btnTherealwh = findViewById(R.id.btn_therealwh)
+
         tvStatus = findViewById(R.id.statusText)
         tvVersion = findViewById(R.id.tvVersion)
     }
@@ -113,6 +125,24 @@ class MainActivity : AppCompatActivity() {
             startLoadingActivity(
                 "https://raw.githubusercontent.com/Surfboardv2ray/TGProto/refs/heads/main/proxies-tested.txt",
                 "SurfboardV2ray",
+                "https://t.me/proxy?"
+            )
+        }
+
+        // SoliSpirit
+        btnSoliSpirit.setOnClickListener {
+            startLoadingActivity(
+                "https://raw.githubusercontent.com/SoliSpirit/mtproto/master/all_proxies.txt",
+                "SoliSpirit",
+                "https://t.me/proxy?"
+            )
+        }
+
+        //  Therealwh
+        btnTherealwh.setOnClickListener {
+            startLoadingActivity(
+                "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/refs/heads/main/protocols/mtproto.txt",
+                "VestraNet",
                 "https://t.me/proxy?"
             )
         }
@@ -194,7 +224,7 @@ class MainActivity : AppCompatActivity() {
                     "• Показывает только работающие прокси\n\n" +
                     "Источники:\n" +
                     "• Kort0881 - прокси с закосом под сервисы России и Европы\n" +
-                    "• SurfboardV2ray - большой список\n\n" +
+                    "• SurfboardV2ray, SoliSpirit, Therealwh - авторские список\n" +
                     "💡 Чем меньше пинг, тем быстрее прокси\n\n" +
                     "📥 Скачать все прокси - объединяет все источники\n" +
                     "📂 Проверить из файла - проверяет ваш файл с прокси\n\n")
