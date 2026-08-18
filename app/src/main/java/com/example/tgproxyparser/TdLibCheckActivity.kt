@@ -32,6 +32,11 @@ class TdLibCheckActivity : AppCompatActivity() {
     private lateinit var btnSources: MaterialButton
     private lateinit var btnFile: MaterialButton
 
+    // НОВОЕ: кнопка сохранения и текстовый блок
+    private lateinit var btnSaveAll: MaterialButton
+    private lateinit var infoCard: com.google.android.material.card.MaterialCardView
+    private lateinit var tvInfoText: TextView
+
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var isCancelled = false
 
@@ -86,6 +91,12 @@ class TdLibCheckActivity : AppCompatActivity() {
         btnSources = findViewById(R.id.btnCheckSources)
         btnFile = findViewById(R.id.btnCheckFile)
 
+        // НОВОЕ: инициализация кнопки сохранения и текстового блока
+        btnSaveAll = findViewById(R.id.btnSaveAllProxies)
+        infoCard = findViewById(R.id.infoCard)
+        tvInfoText = findViewById(R.id.tvInfoText)
+        infoCard.visibility = android.view.View.VISIBLE
+
         btnCancel.setOnClickListener {
             isCancelled = true
             scope.cancel()
@@ -98,6 +109,11 @@ class TdLibCheckActivity : AppCompatActivity() {
 
         btnFile.setOnClickListener {
             openFilePicker()
+        }
+
+        // НОВОЕ: обработчик кнопки сохранения
+        btnSaveAll.setOnClickListener {
+            saveAllProxiesToFile()
         }
     }
 
@@ -199,6 +215,7 @@ class TdLibCheckActivity : AppCompatActivity() {
 
                 if (isCancelled) return@launch
 
+                // ПОКАЗЫВАЕМ РЕЗУЛЬТАТЫ (СТАРАЯ ЛОГИКА — НЕ ТРОГАЕМ)
                 showResults(workingProxies, "Из списков (TDLib)")
 
             } catch (e: Exception) {
@@ -299,6 +316,7 @@ class TdLibCheckActivity : AppCompatActivity() {
 
                 if (isCancelled) return@launch
 
+                // ПОКАЗЫВАЕМ РЕЗУЛЬТАТЫ (СТАРАЯ ЛОГИКА — НЕ ТРОГАЕМ)
                 showResults(workingProxies, "Из файла (TDLib)")
 
             } catch (e: Exception) {
@@ -311,7 +329,69 @@ class TdLibCheckActivity : AppCompatActivity() {
         }
     }
 
-    // ==================== TDLib методы ====================
+    // ==================== НОВЫЙ МЕТОД: СОХРАНЕНИЕ ВСЕХ ПРОКСИ (БЕЗ БЛОКИРОВКИ) ====================
+
+    private fun saveAllProxiesToFile() {
+        scope.launch {
+            try {
+                updateStatus("Загрузка всех источников...", 0, 0)
+
+                val allProxies = ProxyManager.fetchAllSources { sourceIndex, total, count ->
+                    updateStatus(
+                        "Загрузка источника $sourceIndex из $total...",
+                        sourceIndex,
+                        total,
+                        count
+                    )
+                }
+
+                if (isCancelled) return@launch
+
+                if (allProxies.isEmpty()) {
+                    withContext(Dispatchers.Main) {
+                        showError("Не удалось загрузить прокси из источников")
+                    }
+                    return@launch
+                }
+
+                updateStatus("Удаление дубликатов...", 0, allProxies.size)
+
+                val uniqueProxies = ProxyManager.deduplicateProxies(allProxies)
+
+                if (uniqueProxies.isEmpty()) {
+                    withContext(Dispatchers.Main) {
+                        showError("После удаления дубликатов не осталось прокси")
+                    }
+                    return@launch
+                }
+
+                updateStatus("Сохранение файла...", 0, uniqueProxies.size)
+
+                val file = ProxyManager.saveProxiesToFile(uniqueProxies)
+
+                withContext(Dispatchers.Main) {
+                    if (file != null) {
+                        Toast.makeText(
+                            this@TdLibCheckActivity,
+                            "✅ Сохранено ${uniqueProxies.size} прокси в файл",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        updateStatus("✅ Готово", 0, 0)
+                    } else {
+                        showError("Не удалось сохранить файл")
+                    }
+                }
+
+            } catch (e: Exception) {
+                Log.e("SaveProxies", "Ошибка сохранения", e)
+                withContext(Dispatchers.Main) {
+                    showError("Ошибка: ${e.message}")
+                }
+            }
+        }
+    }
+
+    // ==================== TDLib методы (БЕЗ ИЗМЕНЕНИЙ) ====================
 
     private suspend fun prepareSearch() {
         val root = workRoot ?: error("TDLib не инициализирован")
@@ -429,7 +509,7 @@ class TdLibCheckActivity : AppCompatActivity() {
         }
     }
 
-    // ==================== Socket предпроверка ====================
+    // ==================== Socket предпроверка (БЕЗ ИЗМЕНЕНИЙ) ====================
 
     private suspend fun filterWithSocket(
         proxies: List<String>,
@@ -486,7 +566,7 @@ class TdLibCheckActivity : AppCompatActivity() {
         }
     }
 
-    // ==================== TDLib проверка ====================
+    // ==================== TDLib проверка (БЕЗ ИЗМЕНЕНИЙ) ====================
 
     private suspend fun checkProxiesWithTDLib(
         proxies: List<String>,
@@ -630,7 +710,7 @@ class TdLibCheckActivity : AppCompatActivity() {
         }
     }
 
-    // ==================== Вспомогательные методы ====================
+    // ==================== Вспомогательные методы (БЕЗ ИЗМЕНЕНИЙ) ====================
 
     private fun parseProxyUrl(url: String): ProxyInfoExt? {
         return try {

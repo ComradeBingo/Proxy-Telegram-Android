@@ -109,17 +109,19 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDeepCheck"
                 android:layout_width="match_parent"
-                android:layout_height="125dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
-                android:padding="16dp"
-                android:text="Автоматическая проверка MTProto через TDLib из всех списков сразу\n 100% результат"
+                android:padding="18dp"
+                android:text="Нажмите для поиска прокси"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:backgroundTint="?attr/colorPrimary"
                 app:cornerRadius="16dp"
-                android:layout_marginBottom="18dp" />
+                android:layout_marginBottom="18dp"
+                android:elevation="8dp"
+                />
 
             <!-- Статус карточка -->
             <com.google.android.material.card.MaterialCardView

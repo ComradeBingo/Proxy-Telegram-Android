@@ -61,7 +61,7 @@
                 android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Кнопки выбора источника ВНУТРИ карточки -->
+            <!-- Кнопка: Проверить из свежих списков -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCheckSources"
                 android:layout_width="match_parent"
@@ -71,18 +71,34 @@
                 android:textStyle="bold"
                 app:cornerRadius="24dp"
                 android:textColor="?attr/colorOnPrimary"
-                android:backgroundTint="?attr/colorPrimary" />
+                app:backgroundTint="?attr/colorPrimary"
+                android:elevation="4dp" />
 
+            <!-- Кнопка: Проверить из файла -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCheckFile"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="📂 Проверить из файла"
+                android:layout_marginBottom="12dp"
+                android:textStyle="bold"
+                app:cornerRadius="24dp"
+                android:textColor="?attr/colorOnPrimary"
+                app:backgroundTint="?attr/colorPrimary"
+                android:elevation="4dp" />
+
+            <!-- НОВАЯ КНОПКА: Сохранить все прокси -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveAllProxies"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="💾 Сохранить все прокси в файл"
                 android:layout_marginBottom="16dp"
                 android:textStyle="bold"
                 app:cornerRadius="24dp"
                 android:textColor="?attr/colorOnPrimary"
-                android:backgroundTint="?attr/colorPrimary" />
+                app:backgroundTint="?attr/colorPrimary"
+                android:elevation="4dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -91,6 +107,7 @@
                 android:layout_marginBottom="16dp"
                 android:alpha="0.2" />
 
+            <!-- Прогресс-бар -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/tdLibProgressBar"
                 android:layout_width="match_parent"
@@ -100,6 +117,7 @@
                 app:indicatorColor="?attr/colorPrimary"
                 android:layout_marginBottom="12dp" />
 
+            <!-- Счётчик -->
             <TextView
                 android:id="@+id/tvTdLibCount"
                 android:layout_width="wrap_content"
@@ -121,5 +139,36 @@
         android:textSize="14sp"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_marginTop="16dp" />
+
+    <!-- ========================================== -->
+    <!-- ТЕКСТОВЫЙ БЛОК (пустой, вы заполните сами) -->
+    <!-- ========================================== -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="?attr/colorSurfaceVariant"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        android:id="@+id/infoCard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvInfoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Рекомендуется сохранить все прокси в файл на случай блокировки или недоступности GitHub. Они хоть и не будут актуальны, но иногда работают"
+                android:textSize="14sp"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
