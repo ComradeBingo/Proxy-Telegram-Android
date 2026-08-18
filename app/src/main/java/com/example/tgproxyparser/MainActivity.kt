@@ -3,6 +3,8 @@ package com.example.tgproxyparser
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,10 +32,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnTheme: MaterialButton
     private lateinit var btnMergeAll: MaterialButton
     private lateinit var btnCheckFile: MaterialButton
+    private lateinit var btnDeepCheck: MaterialButton
 
-    // НОВЫЕ КНОПКИ
+    // Кнопки источников
     private lateinit var btnSoliSpirit: MaterialButton
     private lateinit var btnTherealwh: MaterialButton
+
+    // Кнопка-спойлер
+    private lateinit var btnLegacyToggle: MaterialButton
+    private lateinit var legacyContainer: LinearLayout
+    private var isLegacyVisible = false
 
     private lateinit var tvStatus: TextView
     private lateinit var tvVersion: TextView
@@ -86,10 +94,15 @@ class MainActivity : AppCompatActivity() {
         btnTheme = findViewById(R.id.btnTheme)
         btnMergeAll = findViewById(R.id.btnMergeAll)
         btnCheckFile = findViewById(R.id.btnCheckFile)
+        btnDeepCheck = findViewById(R.id.btnDeepCheck)
 
-        // НОВЫЕ КНОПКИ
+        // Кнопки источников
         btnSoliSpirit = findViewById(R.id.btn_solispirit)
         btnTherealwh = findViewById(R.id.btn_therealwh)
+
+        // Кнопка-спойлер и контейнер
+        btnLegacyToggle = findViewById(R.id.btnLegacyToggle)
+        legacyContainer = findViewById(R.id.legacyContainer)
 
         tvStatus = findViewById(R.id.statusText)
         tvVersion = findViewById(R.id.tvVersion)
@@ -138,7 +151,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        //  Therealwh
+        // Therealwh
         btnTherealwh.setOnClickListener {
             startLoadingActivity(
                 "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/refs/heads/main/protocols/mtproto.txt",
@@ -155,6 +168,16 @@ class MainActivity : AppCompatActivity() {
             openFilePicker()
         }
 
+        btnDeepCheck.setOnClickListener {
+            val intent = Intent(this@MainActivity, TdLibCheckActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Кнопка-спойлер Legacy-mode
+        btnLegacyToggle.setOnClickListener {
+            toggleLegacyMode()
+        }
+
         btnSupport.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ComradeBingo"))
             startActivity(intent)
@@ -167,6 +190,12 @@ class MainActivity : AppCompatActivity() {
         btnTheme.setOnClickListener {
             showThemeDialog()
         }
+    }
+
+    private fun toggleLegacyMode() {
+        isLegacyVisible = !isLegacyVisible
+        legacyContainer.visibility = if (isLegacyVisible) View.VISIBLE else View.GONE
+        btnLegacyToggle.text = if (isLegacyVisible) "▲ Ручные источники (Legacy)" else "▼ Ручные источники (Legacy)"
     }
 
     private fun startLoadingActivity(url: String, name: String, prefix: String) {
@@ -224,10 +253,12 @@ class MainActivity : AppCompatActivity() {
                     "• Показывает только работающие прокси\n\n" +
                     "Источники:\n" +
                     "• Kort0881 - прокси с закосом под сервисы России и Европы\n" +
-                    "• SurfboardV2ray, SoliSpirit, Therealwh - авторские список\n" +
+                    "• SurfboardV2ray, SoliSpirit, VestraNet - авторские списки\n" +
+                    "• TDLib проверка - реальная MTProto проверка через TDLib\n" +
                     "💡 Чем меньше пинг, тем быстрее прокси\n\n" +
                     "📥 Скачать все прокси - объединяет все источники\n" +
-                    "📂 Проверить из файла - проверяет ваш файл с прокси\n\n")
+                    "📂 Проверить из файла - проверяет ваш файл с прокси\n" +
+                    "🔍 TDLib проверка - проверка всех прокси через TDLib\n\n")
             .setPositiveButton("GitHub") { _, _ ->
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ComradeBingo"))
                 startActivity(intent)

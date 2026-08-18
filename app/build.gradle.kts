@@ -14,11 +14,18 @@ android {
         applicationId = "com.example.tgproxyparser"
         minSdk = 23
         targetSdk = 36
-        versionCode = 9
-        versionName = "1.9"
+        versionCode = 10
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Только arm64-v8a
+        ndk {
+            abiFilters.add("arm64-v8a")
+        }
     }
+
+
 
     buildFeatures {
         buildConfig = true
@@ -33,10 +40,13 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+
 }
 
 dependencies {
@@ -46,5 +56,6 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation("org.json:json:20240303") // для GitHub API
+    implementation("org.json:json:20240303")
+    implementation("com.github.tdlibx:td:1.8.56")
 }

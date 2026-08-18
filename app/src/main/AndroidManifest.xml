@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tgproxyparser">
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -10,11 +9,14 @@
         android:label="Proxy for Telegram"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ProxyParser">
+        android:theme="@style/Theme.ProxyParser"
+        tools:replace="android:label"
+        tools:targetApi="31">
 
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.ProxyParser">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,21 +24,30 @@
         </activity>
 
         <activity
-            android:name=".ProxyListActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-
-        <activity
             android:name=".ProxyLoadingActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:theme="@style/Theme.ProxyParser" />
+
         <activity
-            android:name=".MergeProxiesActivity"
-            android:exported="false" />
+            android:name=".ProxyListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ProxyParser" />
 
         <activity
             android:name=".CheckFileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.ProxyParser" />
+
+        <activity
+            android:name=".MergeProxiesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ProxyParser" />
+
+
+        <activity
+            android:name=".TdLibCheckActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ProxyParser" />
 
     </application>
 

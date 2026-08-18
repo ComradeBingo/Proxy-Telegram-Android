@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorSurface"
+    android:padding="24dp">
+
+    <!-- Заголовок -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/tvTdLibTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🔍 TDLib Проверка"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Реальная MTProto проверка через Telegram"
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+
+    <!-- Статус карточка с кнопками внутри -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="?attr/colorSurfaceVariant"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tvTdLibStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Выберите источник для проверки"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Кнопки выбора источника ВНУТРИ карточки -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCheckSources"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Проверить из свежих списков"
+                android:layout_marginBottom="12dp"
+                android:textStyle="bold"
+                app:cornerRadius="24dp"
+                android:textColor="?attr/colorOnPrimary"
+                android:backgroundTint="?attr/colorPrimary" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCheckFile"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="📂 Проверить из файла"
+                android:layout_marginBottom="16dp"
+                android:textStyle="bold"
+                app:cornerRadius="24dp"
+                android:textColor="?attr/colorOnPrimary"
+                android:backgroundTint="?attr/colorPrimary" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/colorOnSurfaceVariant"
+                android:layout_marginBottom="16dp"
+                android:alpha="0.2" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/tdLibProgressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                app:trackColor="?attr/colorSurfaceVariant"
+                app:indicatorColor="?attr/colorPrimary"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:id="@+id/tvTdLibCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12sp"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Кнопка отмены -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCancelTdLib"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Отмена"
+        android:textSize="14sp"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

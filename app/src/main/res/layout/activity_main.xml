@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="38dp" />
@@ -91,8 +92,9 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
+
+
 
         <!-- Основной контент -->
         <LinearLayout
@@ -103,325 +105,357 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp">
 
+            <!-- Круглая кнопка с текстом -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeepCheck"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Автоматическая проверка MTProto через TDLib из всех списков сразу\n 100% результат"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:backgroundTint="?attr/colorPrimary"
+                app:cornerRadius="16dp"
+                android:layout_marginBottom="18dp" />
+
             <!-- Статус карточка -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="?attr/colorSurfaceVariant">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_info"
-                        app:tint="?attr/colorPrimary"
-                        android:layout_marginEnd="12dp" />
-
+                    <!-- Статус текст -->
                     <TextView
                         android:id="@+id/statusText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Выберите источник прокси"
-                        android:textSize="14sp"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- БЛОК KORT0881 -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="?attr/colorSurface">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Kort0881"
+                        android:text="LegacyMode"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textColor="?attr/colorOnSurface"
-                        android:padding="16dp"
-                        android:paddingBottom="8dp" />
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp" />
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btn_russia_card"
+                    <!-- Кнопка-спойлер Legacy-mode -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLegacyToggle"
+                        style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginBottom="12dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp"
-                        app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                        android:foreground="?attr/selectableItemBackground">
+                        android:text="▼ Проверка по конкретным спискам без TDlib\n(никаких гарантий)"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="14sp" />
 
-                        <LinearLayout
+                    <!-- Контейнер с устаревшим функционалом -->
+                    <LinearLayout
+                        android:id="@+id/legacyContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:layout_marginTop="8dp">
+
+                        <!-- БЛОК KORT0881 -->
+                        <com.google.android.material.card.MaterialCardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="16dp"
-                            android:gravity="center_vertical">
-
-                            <TextView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:text="🇷🇺"
-                                android:textSize="28sp"
-                                android:gravity="center"
-                                android:layout_marginEnd="12dp" />
+                            android:layout_marginBottom="12dp"
+                            app:cardBackgroundColor="?attr/colorSurface"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="1dp">
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Россия"
+                                    android:padding="12dp"
+                                    android:paddingBottom="4dp"
+                                    android:text="Kort0881"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textColor="?attr/colorOnSurface" />
+                                    android:textStyle="bold" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <com.google.android.material.card.MaterialCardView
+                                    android:id="@+id/btn_russia_card"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Маскировка под Яндекс, ВК, Mail.ru"
-                                    android:textSize="11sp"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:layout_marginHorizontal="12dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:foreground="?attr/selectableItemBackground"
+                                    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                                    app:cardCornerRadius="10dp"
+                                    app:cardElevation="0dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal"
+                                        android:padding="12dp">
+
+                                        <TextView
+                                            android:layout_width="32dp"
+                                            android:layout_height="32dp"
+                                            android:layout_marginEnd="10dp"
+                                            android:gravity="center"
+                                            android:text="🇷🇺"
+                                            android:textSize="22sp" />
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Россия"
+                                                android:textColor="?attr/colorOnSurface"
+                                                android:textSize="14sp"
+                                                android:textStyle="bold" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Яндекс, ВК, Mail.ru"
+                                                android:textColor="?attr/colorOnSurfaceVariant"
+                                                android:textSize="10sp" />
+
+                                        </LinearLayout>
+
+                                        <ImageView
+                                            android:layout_width="16dp"
+                                            android:layout_height="16dp"
+                                            android:src="@drawable/ic_chevron_right"
+                                            app:tint="?attr/colorOnSurfaceVariant" />
+
+                                    </LinearLayout>
+
+                                </com.google.android.material.card.MaterialCardView>
+
+                                <com.google.android.material.card.MaterialCardView
+                                    android:id="@+id/btn_europe_card"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="12dp"
+                                    android:layout_marginBottom="12dp"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:foreground="?attr/selectableItemBackground"
+                                    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                                    app:cardCornerRadius="10dp"
+                                    app:cardElevation="0dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal"
+                                        android:padding="12dp">
+
+                                        <TextView
+                                            android:layout_width="32dp"
+                                            android:layout_height="32dp"
+                                            android:layout_marginEnd="10dp"
+                                            android:gravity="center"
+                                            android:text="🇪🇺"
+                                            android:textSize="22sp" />
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Европа"
+                                                android:textColor="?attr/colorOnSurface"
+                                                android:textSize="14sp"
+                                                android:textStyle="bold" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Google, Amazon, Cloudflare"
+                                                android:textColor="?attr/colorOnSurfaceVariant"
+                                                android:textSize="10sp" />
+
+                                        </LinearLayout>
+
+                                        <ImageView
+                                            android:layout_width="16dp"
+                                            android:layout_height="16dp"
+                                            android:src="@drawable/ic_chevron_right"
+                                            app:tint="?attr/colorOnSurfaceVariant" />
+
+                                    </LinearLayout>
+
+                                </com.google.android.material.card.MaterialCardView>
 
                             </LinearLayout>
 
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_chevron_right"
-                                app:tint="?attr/colorOnSurfaceVariant" />
+                        </com.google.android.material.card.MaterialCardView>
 
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btn_europe_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp"
-                        app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                        android:foreground="?attr/selectableItemBackground">
-
-                        <LinearLayout
+                        <!-- БЛОК SURFBOARD -->
+                        <com.google.android.material.card.MaterialCardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="16dp"
-                            android:gravity="center_vertical">
-
-                            <TextView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:text="🇪🇺"
-                                android:textSize="28sp"
-                                android:gravity="center"
-                                android:layout_marginEnd="12dp" />
+                            android:layout_marginBottom="12dp"
+                            app:cardBackgroundColor="?attr/colorSurface"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="1dp">
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:padding="12dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Европа"
+                                    android:text="SurfboardV2ray"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textColor="?attr/colorOnSurface" />
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Маскировка под Google, Amazon, Cloudflare"
-                                    android:textSize="11sp"
-                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                                    android:layout_marginBottom="12dp"
+                                    android:text="Большой список прокси"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:textSize="11sp" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btn_surfboard"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:backgroundTint="?attr/colorPrimary"
+                                    android:text="Загрузить прокси"
+                                    android:textColor="?attr/colorOnPrimary"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    app:cornerRadius="20dp" />
 
                             </LinearLayout>
 
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_chevron_right"
-                                app:tint="?attr/colorOnSurfaceVariant" />
+                        </com.google.android.material.card.MaterialCardView>
 
-                        </LinearLayout>
+                        <!-- БЛОК SOLISPIRIT -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            app:cardBackgroundColor="?attr/colorSurface"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="1dp">
 
-                    </com.google.android.material.card.MaterialCardView>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp">
 
-                </LinearLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="SoliSpirit"
+                                    android:textColor="?attr/colorOnSurface"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
 
-            </com.google.android.material.card.MaterialCardView>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="12dp"
+                                    android:text="MTProto прокси"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:textSize="11sp" />
 
-            <!-- БЛОК SURFBOARD -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="?attr/colorSurface">
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btn_solispirit"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:backgroundTint="?attr/colorPrimary"
+                                    android:text="Загрузить прокси"
+                                    android:textColor="?attr/colorOnPrimary"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    app:cornerRadius="20dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SurfboardV2ray"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="?attr/colorOnSurface" />
+                        </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Большой список прокси"
-                        android:textSize="12sp"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:layout_marginBottom="16dp" />
+                        <!-- БЛОК VestraNet -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            app:cardBackgroundColor="?attr/colorSurface"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="1dp">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_surfboard"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:text="Загрузить прокси"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:cornerRadius="24dp"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:backgroundTint="?attr/colorPrimary" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp">
 
-                </LinearLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="VestraNet"
+                                    android:textColor="?attr/colorOnSurface"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
 
-            </com.google.android.material.card.MaterialCardView>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="12dp"
+                                    android:text="Verified прокси"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:textSize="11sp" />
 
-            <!-- НОВЫЙ БЛОК SOLISPIRIT -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="?attr/colorSurface">
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btn_therealwh"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:backgroundTint="?attr/colorPrimary"
+                                    android:text="Загрузить прокси"
+                                    android:textColor="?attr/colorOnPrimary"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    app:cornerRadius="20dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SoliSpirit"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="?attr/colorOnSurface" />
+                        </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="MTProto прокси"
-                        android:textSize="12sp"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:layout_marginBottom="16dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_solispirit"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:text="Загрузить прокси"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:cornerRadius="24dp"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:backgroundTint="?attr/colorPrimary" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- НОВЫЙ БЛОК VestraNet -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="?attr/colorSurface">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="VestraNet"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="?attr/colorOnSurface" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Verified прокси"
-                        android:textSize="12sp"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:layout_marginBottom="16dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_therealwh"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:text="Загрузить прокси"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:cornerRadius="24dp"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:backgroundTint="?attr/colorPrimary" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -433,16 +467,17 @@
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="📥 Скачать все прокси"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:text="📥 Скачать все прокси в один .txt" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCheckFile"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="📂 Проверить из файла"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:text="📂 Проверить из файла .txt (без TDLib)" />
+
 
             <!-- Кнопка поддержки -->
             <com.google.android.material.button.MaterialButton
@@ -451,12 +486,12 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:backgroundTint="#000000"
                 android:text="❤️ ПОДДЕРЖАТЬ ПРОЕКТ"
+                android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                app:cornerRadius="28dp"
-                android:backgroundTint="#000000" />
+                app:cornerRadius="28dp" />
 
             <View
                 android:layout_width="match_parent"
